@@ -7,13 +7,6 @@ pipeline {
   }
   
   stages {
-    stage('checkout') {
-      steps {
-        echo '-------------GIT CHECKOUT-----------------'
-        git branch: 'main', url: 'https://github.com/iamridoydey/flask-api.git'
-      }
-    }
-
     stage('dockerhub-login') {
       steps {
         echo '------------DOCKERHUB LOGIN-------------'
