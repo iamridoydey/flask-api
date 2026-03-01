@@ -81,7 +81,7 @@ pipeline {
         sh '''
           cat > deploy-info-$BUILD_NUMBER.txt <<EOF
             build: $BUILD_NUMBER
-            image: $IMAGE:$TAG
+            image: $IMAGE:$VERSION
             commit: ${GIT_COMMIT}
             branch: $GIT_BRANCH
             time: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
