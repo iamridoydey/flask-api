@@ -73,25 +73,24 @@ pipeline {
               ${env.IMAGE}:latest
           """
         }
-      }
-    }
 
-    stage('archive-artifact'){
-      steps{
-        sh """
+        //  write deploy info with build number in the filename
+        sh '''
           cat > deploy-info-$BUILD_NUMBER.txt <<EOF
             build: $BUILD_NUMBER
-            image: $IMAGE:$VERSION
+            image: $IMAGE:$TAG
             commit: ${GIT_COMMIT}
             branch: $GIT_BRANCH
-            time: \$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            time: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
             url: $BUILD_URL
           EOF
-        """
+        '''
 
-        archiveArtifacts artifacts: "deploy-info-$BUILD_NUMBER.txt", fingerprint: true, followSymlinks: false, onlyIfSuccessful: true
+        // archive and fingerprint it
+        archiveArtifacts artifacts: "deploy-info-${BUILD_NUMBER}.txt", fingerprint: true
       }
     }
+
 
     stage('clear-workspace') {
       steps {
