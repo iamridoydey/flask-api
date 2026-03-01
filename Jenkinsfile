@@ -78,7 +78,8 @@ pipeline {
 
     stage('archive-artifact'){
       steps{
-        sh """
+        script{
+          sh """
           cat > deploy-info-$BUILD_NUMBER.txt <<EOF
             build: $BUILD_NUMBER
             image: $IMAGE:$VERSION
@@ -88,6 +89,8 @@ pipeline {
             url: $BUILD_URL
           EOF
         """
+        }
+        
 
         archiveArtifacts artifacts: 'deploy-info-$BUILD_NUMBER.txt', fingerprint: true, followSymlinks: false, onlyIfSuccessful: true
       }
