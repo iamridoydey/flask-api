@@ -92,7 +92,7 @@ pipeline {
         }
         
 
-        archiveArtifacts artifacts: "deploy-info-$BUILD_NUMBER.txt", fingerprint: true
+        archiveArtifacts artifacts: "deploy-info-$(BUILD_NUMBER).txt", fingerprint: true
       }
     }
 
