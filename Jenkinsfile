@@ -99,5 +99,18 @@ pipeline {
     }
   }
   
+  post{
+    success {
+      echo "Build #${env.BUILD_ID} successfully completed. Ready to deploy."
+    }
+
+    failure {
+      echo "Build #${env.BUILD_ID} failed. Try fix it!"
+    }
+
+    always {
+      echo "Build #${env.BUILD_ID} finished!"
+    }
+  }
 
 }
