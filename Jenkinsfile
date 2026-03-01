@@ -58,14 +58,6 @@ pipeline {
       }
     }
 
-    stage('clear-workspace') {
-      steps {
-        echo '----------CLEAR WORKSPACE---------'
-        echo 'Cleaning up the workspace...'
-        sh "rm -rf ${WORKSPACE}/*"
-      }
-    }
-
     stage('deploy') {
       steps {
         script {
@@ -81,6 +73,31 @@ pipeline {
               ${env.IMAGE}:latest
           """
         }
+      }
+    }
+
+    stage('archive-artifact'){
+      steps{
+        sh '''
+          cat > deploy-info-$BUILD_NUMBER.txt <<EOF
+            build: $BUILD_NUMBER
+            image: $IMAGE:$TAG
+            commit: ${GIT_COMMIT}
+            branch: $GIT_BRANCH
+            time: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            url: $BUILD_URL
+          EOF
+        '''
+
+        archiveArtifacts artifacts: 'deploy-info-$BUILD_NUMBER.txt', fingerprint: true, followSymlinks: false, onlyIfSuccessful: true
+      }
+    }
+
+    stage('clear-workspace') {
+      steps {
+        echo '----------CLEAR WORKSPACE---------'
+        echo 'Cleaning up the workspace...'
+        cleanWs()
       }
     }
 
