@@ -80,7 +80,7 @@ pipeline {
       steps{
         echo "-------------BUILDING ARCHIVING ARTIFACT-----------"
           sh '''
-            deploy-info-${BUILD_NUMBER}.txt <<EOF
+          cat > deploy-info-${BUILD_NUMBER}.txt <<EOF
 build: $BUILD_NUMBER
 image: $IMAGE:$VERSION
 commit: ${GIT_COMMIT}
