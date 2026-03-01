@@ -80,7 +80,7 @@ pipeline {
       steps{
         echo "-------------BUILDING ARCHIVING ARTIFACT-----------"
           sh '''
-            cat > deploy-info-$BUILD_NUMBER.txt <<EOF
+            cat > deploy-info-${BUILD_NUMBER}.txt <<EOF
             build: $BUILD_NUMBER
             image: $IMAGE:$VERSION
             commit: ${GIT_COMMIT}
@@ -89,7 +89,7 @@ pipeline {
             url: $BUILD_URL
             EOF
           '''
-        archiveArtifacts artifacts: "deploy-info-$BUILD_NUMBER.txt", fingerprint: true
+        archiveArtifacts artifacts: "deploy-info-${BUILD_NUMBER}.txt", fingerprint: true
       }
     }
 
